@@ -1,0 +1,41 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 13 * * 2'   # Вторник, 13:00 (UTC)
+    - cron: '0 18 * * 5'   # Пятница, 18:00 (UTC)
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Grant execute permission for gradlew (non-Windows)
+        run: chmod +x ./gradlew
+        if: runner.os != 'Windows'
+
+      - name: Build and Test with Gradle (non-Windows)
+        run: ./gradlew build
+        if: runner.os != 'Windows'
+
+      - name: Build and Test with Gradle (Windows)
+        run: .\gradlew.bat build
+        if: runner.os == 'Windows'
