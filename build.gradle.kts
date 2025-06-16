@@ -22,9 +22,9 @@ publishing {
     publications {
         create<MavenPublication>("gpr") {
             from(components["java"])
-            groupId = "com.github.OneMouseClick"
-            artifactId = "Food-delivery"
-            version = "1.0.0"
+            groupId = "io.github.OneMouseClick"
+            artifactId = "food-delivery"
+            version = "1.0.0"  
         }
     }
 
@@ -39,6 +39,7 @@ publishing {
         }
     }
 }
+
 
 //plugins {
 //    id("java")
